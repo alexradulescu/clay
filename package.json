@@ -1,5 +1,5 @@
 {
-  "name": "clay",
+  "name": "@alexradulescu/clay",
   "version": "0.1.0",
   "description": "Minimal, type-safe styled components for React using ecsstatic",
   "type": "module",
