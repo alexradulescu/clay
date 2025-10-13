@@ -1,0 +1,33 @@
+# Source files
+src/
+example/
+node_modules/
+
+# Config files
+tsconfig.json
+tsup.config.ts
+eslint.config.js
+.eslintrc*
+.prettierrc*
+
+# Build artifacts
+*.log
+*.tsbuildinfo
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.DS_Store

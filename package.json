@@ -1,0 +1,70 @@
+{
+  "name": "clay",
+  "version": "0.1.0",
+  "description": "Minimal, type-safe styled components for React using ecsstatic",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "import": "./dist/vite.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "example:dev": "cd example && vite",
+    "example:build": "cd example && vite build",
+    "lint": "eslint .",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "css-in-js",
+    "styled-components",
+    "react",
+    "ecsstatic",
+    "vite",
+    "zero-runtime",
+    "compile-time"
+  ],
+  "author": "Alex Radulescu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/clay"
+  },
+  "peerDependencies": {
+    "@acab/ecsstatic": ">=0.9.0",
+    "react": ">=18.0.0",
+    "vite": ">=5.0.0"
+  },
+  "dependencies": {
+    "magic-string": "^0.30.19"
+  },
+  "devDependencies": {
+    "@acab/ecsstatic": "^0.9.0",
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^24.6.0",
+    "@types/react": "^19.1.16",
+    "@vitejs/plugin-react": "^5.0.4",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.22",
+    "globals": "^16.4.0",
+    "react": "^19.1.1",
+    "tsup": "^8.5.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.45.0",
+    "vite": "^6.0.0"
+  }
+}
