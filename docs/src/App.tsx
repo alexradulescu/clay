@@ -287,6 +287,49 @@ export default defineConfig({
         </Section>
 
         <Section>
+          <SectionTitle>CSS Bundling</SectionTitle>
+          <p>
+            Clay extracts CSS at build time and lets Vite handle the bundling. The number of CSS files depends on your application structure:
+          </p>
+
+          <h3 style={{ fontSize: "1.2rem", marginTop: "1.5rem", marginBottom: "0.5rem" }}>Single CSS File (Default)</h3>
+          <p>
+            With a standard SPA entry point, <strong>all CSS from all components</strong> is bundled into <strong>one CSS file</strong>:
+          </p>
+          <CodeBlock>{`// App.tsx
+import { Button } from "./components/Button";
+import { Card } from "./components/Card";
+import { Header } from "./components/Header";
+// ... 100 more components
+
+// Build output:
+// dist/assets/index.css  ← ALL CSS in one file`}</CodeBlock>
+
+          <h3 style={{ fontSize: "1.2rem", marginTop: "1.5rem", marginBottom: "0.5rem" }}>Multiple CSS Files (Code Splitting)</h3>
+          <p>
+            When using lazy loading / dynamic imports, Vite creates <strong>separate CSS chunks</strong> for each route:
+          </p>
+          <CodeBlock>{`// App.tsx with route-based code splitting
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Settings = lazy(() => import('./pages/Settings'));
+const Profile = lazy(() => import('./pages/Profile'));
+
+// Build output:
+// dist/assets/index.css      ← Shared CSS
+// dist/assets/dashboard.css  ← Dashboard route CSS
+// dist/assets/settings.css   ← Settings route CSS
+// dist/assets/profile.css    ← Profile route CSS`}</CodeBlock>
+
+          <p><strong>Key points:</strong></p>
+          <ul>
+            <li>Components in the same chunk share a CSS file</li>
+            <li>CSS is automatically deduplicated and minified</li>
+            <li>Works exactly like regular CSS imports in Vite</li>
+            <li>No configuration needed - follows your code splitting strategy</li>
+          </ul>
+        </Section>
+
+        <Section>
           <SectionTitle>Why Clay?</SectionTitle>
           <p>
             Clay provides a familiar styled-components API while leveraging ecsstatic's compile-time CSS extraction.
