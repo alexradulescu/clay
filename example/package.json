@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@acab/ecsstatic": "^0.9.0",
-    "clay": "workspace:*",
+    "@alexradulescu/clay": "file:../",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

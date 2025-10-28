@@ -2,18 +2,18 @@
 
 A minimal, type-safe `clay` function for React that uses [ecsstatic](https://ecsstatic.dev) under the hood.
 
-## 📚 [Documentation](https://yourusername.github.io/clay/)
+## 📚 [Documentation](https://alexradulescu.github.io/clay/)
 
-Visit our [interactive documentation site](https://yourusername.github.io/clay/) for live examples and detailed guides!
+Visit our [interactive documentation site](https://alexradulescu.github.io/clay/) for live examples and detailed guides!
 
 ## Installation
 
 ```bash
-npm install clay @acab/ecsstatic
+npm install @alexradulescu/clay @acab/ecsstatic
 # or
-bun add clay @acab/ecsstatic
+bun add @alexradulescu/clay @acab/ecsstatic
 # or
-pnpm add clay @acab/ecsstatic
+pnpm add @alexradulescu/clay @acab/ecsstatic
 ```
 
 ## Features
@@ -30,7 +30,7 @@ pnpm add clay @acab/ecsstatic
 ### Basic clay components
 
 ```tsx
-import { clay } from "clay";
+import { clay } from "@alexradulescu/clay";
 
 const Button = clay.button`
   border-radius: 8px;
@@ -114,7 +114,7 @@ Make sure your `vite.config.ts` includes both the clayPlugin and ecsstatic plugi
 import { defineConfig } from "vite";
 import { ecsstatic } from "@acab/ecsstatic/vite";
 import react from "@vitejs/plugin-react";
-import { clayPlugin } from "clay/vite";
+import { clayPlugin } from "@alexradulescu/clay/vite";
 
 export default defineConfig({
   plugins: [clayPlugin(), ecsstatic(), react()],

@@ -1,4 +1,4 @@
-import { clay } from "clay";
+import { clay } from "@alexradulescu/clay";
 import { useState } from "react";
 
 // Styled components for the documentation site
@@ -190,7 +190,7 @@ export function App() {
         <Section>
           <SectionTitle>Installation</SectionTitle>
           <p>Get started with Clay in seconds:</p>
-          <InstallCommand>npm install clay @acab/ecsstatic</InstallCommand>
+          <InstallCommand>npm install @alexradulescu/clay @acab/ecsstatic</InstallCommand>
         </Section>
 
         <Section>
@@ -226,7 +226,7 @@ export function App() {
         <Section>
           <SectionTitle>Usage</SectionTitle>
           <p>Create styled components with a simple, intuitive API:</p>
-          <CodeBlock>{`import { clay } from "clay";
+          <CodeBlock>{`import { clay } from "@alexradulescu/clay";
 
 const Button = clay.button\`
   padding: 0.75rem 1.5rem;
@@ -275,7 +275,7 @@ function App() {
 import { defineConfig } from "vite";
 import { ecsstatic } from "@acab/ecsstatic/vite";
 import react from "@vitejs/plugin-react";
-import { clayPlugin } from "clay/vite";
+import { clayPlugin } from "@alexradulescu/clay/vite";
 
 export default defineConfig({
   plugins: [clayPlugin(), ecsstatic(), react()],
@@ -304,11 +304,11 @@ export default defineConfig({
         <Section>
           <SectionTitle>Resources</SectionTitle>
           <p>
-            <Link href="https://github.com/yourusername/clay" target="_blank" rel="noopener noreferrer">
+            <Link href="https://github.com/alexradulescu/clay" target="_blank" rel="noopener noreferrer">
               GitHub Repository
             </Link>
             {" • "}
-            <Link href="https://www.npmjs.com/package/clay" target="_blank" rel="noopener noreferrer">
+            <Link href="https://www.npmjs.com/package/@alexradulescu/clay" target="_blank" rel="noopener noreferrer">
               npm Package
             </Link>
             {" • "}
