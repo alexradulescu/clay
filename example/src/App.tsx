@@ -1,4 +1,4 @@
-import { clay } from "clay";
+import { clay } from "@alexradulescu/clay";
 
 // Basic clay component
 export const Button = clay.button`
