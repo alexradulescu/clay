@@ -92,6 +92,48 @@ export const PrimaryButton = (props) => {
 };
 ```
 
+## CSS Bundling
+
+### How CSS Files Are Generated
+
+Clay extracts CSS at build time and lets Vite handle the bundling. The number of CSS files depends on your application structure:
+
+#### Single CSS File (Default)
+With a standard SPA entry point, **all CSS from all components** is bundled into **one CSS file**:
+
+```tsx
+// App.tsx
+import { Button } from "./components/Button";
+import { Card } from "./components/Card";
+import { Header } from "./components/Header";
+// ... 100 more components
+
+// Build output:
+// dist/assets/index.css  ← ALL CSS in one file
+```
+
+#### Multiple CSS Files (Code Splitting)
+When using lazy loading / dynamic imports, Vite creates **separate CSS chunks** for each route:
+
+```tsx
+// App.tsx with route-based code splitting
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Settings = lazy(() => import('./pages/Settings'));
+const Profile = lazy(() => import('./pages/Profile'));
+
+// Build output:
+// dist/assets/index.css      ← Shared CSS
+// dist/assets/dashboard.css  ← Dashboard route CSS
+// dist/assets/settings.css   ← Settings route CSS
+// dist/assets/profile.css    ← Profile route CSS
+```
+
+**Key points:**
+- Components in the same chunk share a CSS file
+- CSS is automatically deduplicated and minified
+- Works exactly like regular CSS imports in Vite
+- No configuration needed - follows your code splitting strategy
+
 ## Implementation Details
 
 - **No `any` types** - Fully typed with proper TypeScript generics
