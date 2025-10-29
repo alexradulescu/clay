@@ -9,41 +9,83 @@ const LiveDemoSection = lazy(() => import("./components/LiveDemoSection").then(m
 const CSSBundlingSection = lazy(() => import("./components/CSSBundlingSection").then(m => ({ default: m.CSSBundlingSection })));
 const ResourcesSection = lazy(() => import("./components/ResourcesSection").then(m => ({ default: m.ResourcesSection })));
 
-// Styled components for the documentation site
+// Styled components for the documentation site with Greek-inspired design
 const PageContainer = clay.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 2rem;
+  background: #ffffff;
+  padding: 0;
+  position: relative;
+
+  /* Greek key pattern border at top */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg,
+      #2c3e50 0%, #2c3e50 25%,
+      transparent 25%, transparent 50%,
+      #2c3e50 50%, #2c3e50 75%,
+      transparent 75%, transparent 100%);
+    background-size: 40px 8px;
+  }
 `;
 
 const Content = clay.div`
   max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem;
 `;
 
 const Hero = clay.header`
   text-align: center;
-  padding: 4rem 2rem;
-  color: white;
+  padding: 6rem 2rem 4rem;
+  background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+  border-bottom: 3px solid #2c3e50;
+  position: relative;
+
+  /* Classical column decorations on sides */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 3px;
+    background: #8b7355;
+  }
+
+  @media (max-width: 768px) {
+    padding: 4rem 2rem 3rem;
+  }
 `;
 
 const Title = clay.h1`
-  font-size: 4rem;
-  font-weight: 800;
+  font-size: 5rem;
+  font-weight: 700;
   margin: 0;
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+  color: #2c3e50;
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
 
   @media (max-width: 768px) {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
 `;
 
 const Subtitle = clay.p`
-  font-size: 1.5rem;
-  opacity: 0.9;
+  font-size: 1.4rem;
   margin: 0;
-  font-weight: 300;
+  font-weight: 400;
+  color: #5a6c7d;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  letter-spacing: 0.02em;
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
@@ -51,45 +93,48 @@ const Subtitle = clay.p`
 `;
 
 const InstallCommand = clay.div`
-  background: #2d2d2d;
-  color: #4ec9b0;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
+  background: #f8f9fa;
+  color: #2c3e50;
+  padding: 1rem 2rem;
+  border: 2px solid #e0e0e0;
+  border-left: 4px solid #8b7355;
   font-family: 'Fira Code', 'Courier New', monospace;
-  margin: 1rem 0;
+  margin: 1.5rem 0;
   display: inline-block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 `;
 
 const LoadingPlaceholder = clay.div`
-  background: white;
-  border-radius: 16px;
+  background: #fafafa;
+  border: 2px solid #e0e0e0;
   padding: 3rem;
   margin-bottom: 2rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   text-align: center;
-  color: #667eea;
+  color: #5a6c7d;
   font-size: 1.2rem;
+  font-family: 'Cormorant Garamond', serif;
 `;
 
 const InlineCode = clay.code`
-  background: #f4f4f4;
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
+  background: #f8f9fa;
+  padding: 0.2em 0.5em;
+  border: 1px solid #e0e0e0;
   font-family: 'Fira Code', 'Courier New', monospace;
   font-size: 0.9em;
-  color: #e83e8c;
+  color: #8b7355;
 `;
 
 const CodeBlock = clay.pre`
-  background: #2d2d2d;
-  color: #f8f8f2;
-  padding: 1.5rem;
-  border-radius: 8px;
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 2rem;
+  border-left: 4px solid #8b7355;
   overflow-x: auto;
   font-family: 'Fira Code', 'Courier New', monospace;
   font-size: 0.9rem;
-  line-height: 1.5;
-  margin: 1rem 0;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 `;
 
 export function App() {
