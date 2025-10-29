@@ -36,12 +36,12 @@ const PageContainer = clay.div`
 const Content = clay.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 `;
 
 const Hero = clay.header`
   text-align: center;
-  padding: 6rem 2rem 4rem;
+  padding: 2.5rem 1rem 1.5rem;
   background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
   border-bottom: 3px solid #2c3e50;
   position: relative;
@@ -59,27 +59,27 @@ const Hero = clay.header`
   }
 
   @media (max-width: 768px) {
-    padding: 4rem 2rem 3rem;
+    padding: 2rem 1rem 1.5rem;
   }
 `;
 
 const Title = clay.h1`
-  font-size: 5rem;
+  font-size: 3.33rem;
   font-weight: 700;
   margin: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
   letter-spacing: 0.05em;
   color: #2c3e50;
   font-family: 'Cinzel', serif;
   text-transform: uppercase;
 
   @media (max-width: 768px) {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 `;
 
 const Subtitle = clay.p`
-  font-size: 1.4rem;
+  font-size: 0.93rem;
   margin: 0;
   font-weight: 400;
   color: #5a6c7d;
@@ -88,18 +88,18 @@ const Subtitle = clay.p`
   letter-spacing: 0.02em;
 
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
   }
 `;
 
 const InstallCommand = clay.div`
   background: #f8f9fa;
   color: #2c3e50;
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem;
   border: 2px solid #e0e0e0;
   border-left: 4px solid #8b7355;
   font-family: 'Fira Code', 'Courier New', monospace;
-  margin: 1.5rem 0;
+  margin: 0.75rem 0;
   display: inline-block;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 `;
@@ -107,17 +107,17 @@ const InstallCommand = clay.div`
 const LoadingPlaceholder = clay.div`
   background: #fafafa;
   border: 2px solid #e0e0e0;
-  padding: 3rem;
-  margin-bottom: 2rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
   text-align: center;
   color: #5a6c7d;
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   font-family: 'Cormorant Garamond', serif;
 `;
 
 const InlineCode = clay.code`
   background: #f8f9fa;
-  padding: 0.2em 0.5em;
+  padding: 0.1em 0.25em;
   border: 1px solid #e0e0e0;
   font-family: 'Fira Code', 'Courier New', monospace;
   font-size: 0.9em;
@@ -127,13 +127,13 @@ const InlineCode = clay.code`
 const CodeBlock = clay.pre`
   background: #2c3e50;
   color: #ecf0f1;
-  padding: 2rem;
+  padding: 1rem;
   border-left: 4px solid #8b7355;
   overflow-x: auto;
   font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   line-height: 1.6;
-  margin: 1.5rem 0;
+  margin: 0.75rem 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 `;
 
