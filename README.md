@@ -134,6 +134,14 @@ const Profile = lazy(() => import('./pages/Profile'));
 - Works exactly like regular CSS imports in Vite
 - No configuration needed - follows your code splitting strategy
 
+**Live Example:** The [Clay documentation site](https://alexradulescu.github.io/clay/) itself demonstrates code splitting! Each section is lazy-loaded, resulting in multiple CSS files:
+```
+dist/assets/index.css              1.8 kB  ← Shared CSS (layout, hero)
+dist/assets/FeaturesSection.css    361 B   ← Features section CSS
+dist/assets/LiveDemoSection.css    563 B   ← Demo section CSS
+```
+Check the network tab to see chunks load on-demand!
+
 ## Implementation Details
 
 - **No `any` types** - Fully typed with proper TypeScript generics
