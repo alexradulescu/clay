@@ -1,14 +1,21 @@
-# Source files
+# Source files (dist/ contains the built output)
 src/
 example/
+docs/
 node_modules/
 
 # Config files
 tsconfig.json
 tsup.config.ts
+vitest.config.ts
 eslint.config.js
 .eslintrc*
 .prettierrc*
+
+# Documentation (only README.md is needed for npm)
+GITHUB_PAGES_SETUP.md
+CONTRIBUTING.md
+ARCHITECTURE.md
 
 # Build artifacts
 *.log
@@ -17,6 +24,7 @@ eslint.config.js
 # Git
 .git/
 .gitignore
+.github/
 
 # IDE
 .vscode/
@@ -31,3 +39,7 @@ coverage/
 
 # Misc
 .DS_Store
+bun.lock
+bun.lockb
+package-lock.json
+pnpm-lock.yaml

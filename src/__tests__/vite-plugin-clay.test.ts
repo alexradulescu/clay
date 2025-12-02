@@ -162,4 +162,234 @@ const SpecialButton = clay(PrimaryButton)\`color: white;\`;`;
     expect(result?.code).toContain("<Button");
     expect(result?.code).toContain("<PrimaryButton");
   });
+
+  // =========================================================================
+  // Edge Case Tests
+  // =========================================================================
+
+  describe("edge cases", () => {
+    it("should handle CSS with special characters", () => {
+      const plugin = clayPlugin();
+      const code = `const Box = clay.div\`
+  content: "Hello";
+  background: url('image.png');
+  font-family: 'Helvetica Neue', sans-serif;
+\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain('content: "Hello"');
+      expect(result?.code).toContain("url('image.png')");
+      expect(result?.code).toContain("'Helvetica Neue'");
+    });
+
+    it("should handle CSS with CSS variables", () => {
+      const plugin = clayPlugin();
+      const code = `const Box = clay.div\`
+  --custom-color: #3b82f6;
+  color: var(--custom-color);
+  padding: var(--spacing, 1rem);
+\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("--custom-color: #3b82f6");
+      expect(result?.code).toContain("var(--custom-color)");
+      expect(result?.code).toContain("var(--spacing, 1rem)");
+    });
+
+    it("should handle CSS with complex selectors", () => {
+      const plugin = clayPlugin();
+      const code = `const List = clay.ul\`
+  & > li {
+    padding: 0.5rem;
+  }
+
+  & > li:first-child {
+    border-top: none;
+  }
+
+  & > li:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+  }
+
+  &[data-active="true"] {
+    background: blue;
+  }
+\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("& > li");
+      expect(result?.code).toContain("& > li:first-child");
+      expect(result?.code).toContain("& > li:not(:last-child)");
+      expect(result?.code).toContain('&[data-active="true"]');
+    });
+
+    it("should handle CSS with multiple media queries", () => {
+      const plugin = clayPlugin();
+      const code = `const Container = clay.div\`
+  padding: 1rem;
+
+  @media (min-width: 640px) {
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background: #1a1a1a;
+  }
+\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("@media (min-width: 640px)");
+      expect(result?.code).toContain("@media (min-width: 768px)");
+      expect(result?.code).toContain("@media (prefers-color-scheme: dark)");
+    });
+
+    it("should handle empty CSS content", () => {
+      const plugin = clayPlugin();
+      const code = `const Empty = clay.div\`\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("const Empty = ((c) => (props) => <div");
+      expect(result?.code).toContain("css``");
+    });
+
+    it("should handle whitespace-only CSS content", () => {
+      const plugin = clayPlugin();
+      const code = `const Whitespace = clay.div\`   \`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("const Whitespace = ((c) => (props) => <div");
+    });
+
+    it("should handle various HTML elements", () => {
+      const plugin = clayPlugin();
+      const code = `const Link = clay.a\`color: blue;\`;
+const Input = clay.input\`padding: 0.5rem;\`;
+const Span = clay.span\`font-weight: bold;\`;
+const Section = clay.section\`margin: 1rem;\`;
+const Article = clay.article\`padding: 2rem;\`;
+const Header = clay.header\`background: white;\`;
+const Footer = clay.footer\`border-top: 1px solid;\`;
+const Main = clay.main\`flex: 1;\`;
+const Nav = clay.nav\`display: flex;\`;
+const Form = clay.form\`gap: 1rem;\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("<a");
+      expect(result?.code).toContain("<input");
+      expect(result?.code).toContain("<span");
+      expect(result?.code).toContain("<section");
+      expect(result?.code).toContain("<article");
+      expect(result?.code).toContain("<header");
+      expect(result?.code).toContain("<footer");
+      expect(result?.code).toContain("<main");
+      expect(result?.code).toContain("<nav");
+      expect(result?.code).toContain("<form");
+    });
+
+    it("should handle component names with numbers", () => {
+      const plugin = clayPlugin();
+      const code = `const Button2 = clay.button\`padding: 1rem;\`;
+const Card3D = clay.div\`transform: perspective(500px);\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("const Button2 = ((c) => (props) => <button");
+      expect(result?.code).toContain("const Card3D = ((c) => (props) => <div");
+    });
+
+    it("should handle underscore in component names", () => {
+      const plugin = clayPlugin();
+      const code = `const Primary_Button = clay.button\`background: blue;\`;
+const _PrivateCard = clay.div\`padding: 1rem;\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("const Primary_Button = ((c) => (props) => <button");
+      expect(result?.code).toContain("const _PrivateCard = ((c) => (props) => <div");
+    });
+
+    it("should not transform let declarations", () => {
+      const plugin = clayPlugin();
+      const code = `let Button = clay.button\`padding: 1rem;\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      // let declarations should not be transformed
+      expect(result).toBeNull();
+    });
+
+    it("should not transform var declarations", () => {
+      const plugin = clayPlugin();
+      const code = `var Button = clay.button\`padding: 1rem;\`;`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      // var declarations should not be transformed
+      expect(result).toBeNull();
+    });
+
+    it("should handle .jsx files", () => {
+      const plugin = clayPlugin();
+      const code = `const Button = clay.button\`padding: 1rem;\`;`;
+      const result = plugin.transform?.(code, "/test.jsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("const Button = ((c) => (props) => <button");
+    });
+
+    it("should handle files with mixed content", () => {
+      const plugin = clayPlugin();
+      const code = `import React from 'react';
+
+// Some regular code
+const regularVar = 'test';
+const num = 42;
+
+// Clay component
+const Button = clay.button\`
+  padding: 1rem;
+\`;
+
+// More regular code
+function helper() {
+  return 'helper';
+}
+
+// Another clay component
+const Card = clay.div\`
+  margin: 1rem;
+\`;
+
+export { Button, Card, helper };`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      expect(result).toBeTruthy();
+      expect(result?.code).toContain("import React from 'react'");
+      expect(result?.code).toContain("const regularVar = 'test'");
+      expect(result?.code).toContain("const num = 42");
+      expect(result?.code).toContain("function helper()");
+      expect(result?.code).toContain("const Button = ((c) => (props) => <button");
+      expect(result?.code).toContain("const Card = ((c) => (props) => <div");
+    });
+
+    it("should preserve code that looks like clay but isn't", () => {
+      const plugin = clayPlugin();
+      const code = `// Comment mentioning clay.button
+const clayConfig = { clay: { button: true } };
+const text = "clay.button is great";`;
+      const result = plugin.transform?.(code, "/test.tsx");
+
+      // Should not transform because there's no actual clay.element`` syntax
+      expect(result).toBeNull();
+    });
+  });
 });

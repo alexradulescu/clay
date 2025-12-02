@@ -5,15 +5,15 @@ describe("clay", () => {
   it("should throw an error when used without transformation", () => {
     expect(() => {
       // @ts-expect-error - testing runtime behavior
-      clay.button`padding: 1rem;`;
+      void clay.button`padding: 1rem;`;
     }).toThrow("clay should be transformed by vite-plugin-clay");
   });
 
   it("should throw an error when called as a function without transformation", () => {
+    const Button = () => null;
     expect(() => {
       // @ts-expect-error - testing runtime behavior
-      const Button = () => null;
-      clay(Button)`padding: 1rem;`;
+      void clay(Button)`padding: 1rem;`;
     }).toThrow();
   });
 
@@ -29,7 +29,7 @@ describe("clay", () => {
     // Try to access a property - should throw since not transformed
     expect(() => {
       // @ts-expect-error - testing runtime behavior
-      const _ = clay.div;
+      void clay.div;
     }).toThrow();
   });
 });
