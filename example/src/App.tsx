@@ -1,5 +1,20 @@
 import { useState } from "react";
-import { clay } from "@alexradulescu/clay";
+import { clay, createGlobalStyle } from "@alexradulescu/clay";
+
+// ============================================================================
+// Global Styles
+// ============================================================================
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+`;
 
 // ============================================================================
 // Layout Components
@@ -457,8 +472,10 @@ function ButtonShowcase() {
  */
 export function App() {
   return (
-    <ThemeProvider>
-      <Container>
+    <>
+      <GlobalStyle />
+      <ThemeProvider>
+        <Container>
         <Title>Clay Examples</Title>
         <Text>
           A showcase of Clay components demonstrating various CSS features
@@ -498,5 +515,6 @@ export function App() {
         </Grid>
       </Container>
     </ThemeProvider>
+    </>
   );
 }

@@ -51,6 +51,22 @@ const CLAY_ELEMENT_PATTERN = /const\s+(\w+)\s*=\s*clay\.(\w+)`([^`]*)`/g;
  */
 const CLAY_EXTEND_PATTERN = /const\s+(\w+)\s*=\s*clay\((\w+)\)`([^`]*)`/g;
 
+/**
+ * Pattern 3: Matches `const GlobalStyle = createGlobalStyle`cssContent``
+ *
+ * Examples that match:
+ * - const GlobalStyle = createGlobalStyle`* { box-sizing: border-box; }`
+ * - const CSSReset = createGlobalStyle`body { margin: 0; }`
+ *
+ * Capture groups:
+ * - Group 1: Component name (e.g., "GlobalStyle", "CSSReset")
+ * - Group 2: CSS content (e.g., "* { box-sizing: border-box; }")
+ *
+ * Note: The component name can be anything, but typically GlobalStyle or CSSReset.
+ */
+const CREATE_GLOBAL_STYLE_PATTERN =
+  /const\s+(\w+)\s*=\s*createGlobalStyle`([^`]*)`/g;
+
 // ============================================================================
 // Helper Functions
 // ============================================================================
@@ -92,7 +108,11 @@ function shouldProcessFile(id: string): boolean {
  * @returns true if the file might contain clay usage
  */
 function mightContainClay(code: string): boolean {
-  return code.includes("clay.") || code.includes("clay(");
+  return (
+    code.includes("clay.") ||
+    code.includes("clay(") ||
+    code.includes("createGlobalStyle")
+  );
 }
 
 /**
@@ -232,6 +252,27 @@ export function clayPlugin(): Plugin {
           baseComponent,
           cssContent
         );
+
+        magicCode.overwrite(
+          match.index,
+          match.index + fullMatch.length,
+          replacement
+        );
+        hasChanges = true;
+      }
+
+      // ---------------------------------------------------------------------
+      // Transform Pattern 3: createGlobalStyle`css`
+      // ---------------------------------------------------------------------
+      // Reset the regex lastIndex for the third pattern
+      CREATE_GLOBAL_STYLE_PATTERN.lastIndex = 0;
+
+      while ((match = CREATE_GLOBAL_STYLE_PATTERN.exec(code)) !== null) {
+        const [fullMatch, componentName, cssContent] = match;
+
+        // Transform createGlobalStyle to:
+        // css`...`; const ComponentName = () => null;
+        const replacement = `css\`${cssContent}\`; const ${componentName} = () => null;`;
 
         magicCode.overwrite(
           match.index,
