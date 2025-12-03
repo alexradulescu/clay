@@ -42,30 +42,26 @@ const Button = clay.button`
 
 ## Quick Start
 
-**1. Install dependencies:**
+**1. Install:**
 
 ```bash
-npm install @alexradulescu/clay @acab/ecsstatic
+npm install @alexradulescu/clay
 ```
 
 **2. Configure Vite** (create or update `vite.config.ts`):
 
 ```ts
 import { defineConfig } from "vite";
-import { clayPlugin } from "@alexradulescu/clay/vite";
-import { ecsstatic } from "@acab/ecsstatic/vite";
+import { clay } from "@alexradulescu/clay/vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [
-    clayPlugin(),   // 1. Clay transforms clay.x`` to css``
-    ecsstatic(),    // 2. ecsstatic extracts css`` to static CSS
-    react(),        // 3. React handles JSX
+    clay(),    // Handles transformation + CSS extraction
+    react(),   // React handles JSX
   ],
 });
 ```
-
-> **Warning:** Plugin order matters! `clayPlugin` → `ecsstatic` → `react`
 
 **3. Create a styled component:**
 
@@ -95,13 +91,13 @@ npm run dev
 
 ```bash
 # npm
-npm install @alexradulescu/clay @acab/ecsstatic
+npm install @alexradulescu/clay
 
 # pnpm
-pnpm add @alexradulescu/clay @acab/ecsstatic
+pnpm add @alexradulescu/clay
 
 # bun
-bun add @alexradulescu/clay @acab/ecsstatic
+bun add @alexradulescu/clay
 ```
 
 ### Requirements
@@ -110,8 +106,9 @@ bun add @alexradulescu/clay @acab/ecsstatic
 |------------|---------|
 | React | 18.0.0+ |
 | Vite | 5.0.0+ |
-| @acab/ecsstatic | 0.9.0+ |
 | TypeScript | Optional (recommended) |
+
+> **Note:** Clay includes ecsstatic as a dependency - no need to install it separately!
 
 ---
 
@@ -123,28 +120,45 @@ Create or update your `vite.config.ts`:
 
 ```ts
 import { defineConfig } from "vite";
+import { clay } from "@alexradulescu/clay/vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [
+    clay(),    // Handles transformation + CSS extraction
+    react(),   // Handles JSX
+  ],
+});
+```
+
+That's it! The `clay()` plugin handles everything automatically.
+
+<details>
+<summary><b>Advanced:</b> Using individual plugins for fine-grained control</summary>
+
+If you need fine-grained control, you can use the individual plugins:
+
+```ts
+import { defineConfig } from "vite";
 import { clayPlugin } from "@alexradulescu/clay/vite";
 import { ecsstatic } from "@acab/ecsstatic/vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [
-    clayPlugin(),   // Must be first
-    ecsstatic(),    // Must be before react
-    react(),        // Must be last
+    clayPlugin(),   // Transform clay syntax
+    ecsstatic(),    // Extract CSS to files
+    react(),        // Handle JSX
   ],
 });
 ```
 
-### Plugin Order Explanation
+**Important:** If using individual plugins, the order matters:
+1. `clayPlugin()` must be first
+2. `ecsstatic()` must be second
+3. `react()` must be last
 
-The plugins must be in this exact order because:
-
-1. **clayPlugin** - Transforms `clay.button\`...\`` into `css\`...\`` calls
-2. **ecsstatic** - Extracts `css\`...\`` into static `.css` files
-3. **react** - Handles JSX transformation
-
-If the order is wrong, you'll see runtime errors or unstyled components.
+</details>
 
 ### TypeScript Configuration (Optional)
 
@@ -285,6 +299,110 @@ const Box = clay.div`
 // Both classes are applied
 <Box className="mt-4">Content</Box>
 // Renders: <div class="generated-abc123 mt-4">Content</div>
+```
+
+### `createGlobalStyle`
+
+Creates a component that applies global CSS styles.
+
+```tsx
+createGlobalStyle`css styles`
+```
+
+**Syntax:**
+```tsx
+const GlobalStyle = createGlobalStyle`
+  /* Global CSS styles */
+`;
+```
+
+**Parameters:**
+- Template literal containing global CSS styles
+
+**Returns:** A React component that renders nothing but applies global styles
+
+**Example:**
+```tsx
+import { createGlobalStyle } from "@alexradulescu/clay";
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+`;
+
+// Usage in your app
+function App() {
+  return (
+    <>
+      <GlobalStyle />
+      <YourApp />
+    </>
+  );
+}
+```
+
+**Theme Variables Example:**
+```tsx
+const GlobalStyle = createGlobalStyle`
+  :root {
+    --color-primary: #667eea;
+    --color-secondary: #764ba2;
+    --spacing-unit: 0.25rem;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-text);
+  }
+`;
+```
+
+**Dark Mode Example:**
+```tsx
+const GlobalStyle = createGlobalStyle`
+  :root {
+    --bg: #ffffff;
+    --text: #000000;
+  }
+
+  [data-theme="dark"] {
+    --bg: #1a1a1a;
+    --text: #ffffff;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.2s, color 0.2s;
+  }
+`;
+```
+
+### `css`
+
+For one-off styles without creating a component, use the `css` function:
+
+```tsx
+import { css } from "@alexradulescu/clay";
+
+const dynamicClass = css`
+  color: red;
+  font-weight: bold;
+`;
+
+<div className={dynamicClass}>Styled text</div>
 ```
 
 ---

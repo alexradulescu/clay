@@ -1,0 +1,36 @@
+import { createGlobalStyle } from "@alexradulescu/clay";
+
+export const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #fafafa;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #1a1a1a;
+  }
+
+  ul {
+    line-height: 1.8;
+  }
+
+  p {
+    line-height: 1.8;
+    color: #4a4a4a;
+    font-size: 0.7rem;
+  }
+`;
