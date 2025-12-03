@@ -6,6 +6,7 @@ import { Section, SectionTitle } from "./components/shared";
 const FeaturesSection = lazy(() => import("./components/FeaturesSection").then(m => ({ default: m.FeaturesSection })));
 const UsageSection = lazy(() => import("./components/UsageSection").then(m => ({ default: m.UsageSection })));
 const LiveDemoSection = lazy(() => import("./components/LiveDemoSection").then(m => ({ default: m.LiveDemoSection })));
+const GlobalStylesSection = lazy(() => import("./components/GlobalStylesSection").then(m => ({ default: m.GlobalStylesSection })));
 const CSSBundlingSection = lazy(() => import("./components/CSSBundlingSection").then(m => ({ default: m.CSSBundlingSection })));
 const ResourcesSection = lazy(() => import("./components/ResourcesSection").then(m => ({ default: m.ResourcesSection })));
 
@@ -64,77 +65,78 @@ const Hero = clay.header`
 `;
 
 const Title = clay.h1`
-  font-size: 3.33rem;
+  font-size: 3rem;
   font-weight: 700;
   margin: 0;
   margin-bottom: 0.75rem;
-  letter-spacing: 0.05em;
-  color: #2c3e50;
-  font-family: 'Cinzel', serif;
-  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: #09090b;
+  font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
 `;
 
 const Subtitle = clay.p`
-  font-size: 0.93rem;
+  font-size: 1.125rem;
   margin: 0;
   font-weight: 400;
-  color: #5a6c7d;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  letter-spacing: 0.02em;
+  color: #71717a;
+  line-height: 1.7;
 
   @media (max-width: 768px) {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 `;
 
 const InstallCommand = clay.div`
-  background: #f8f9fa;
-  color: #2c3e50;
-  padding: 0.5rem 1rem;
-  border: 2px solid #e0e0e0;
+  background: #f4f4f5;
+  color: #18181b;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e4e4e7;
   border-left: 4px solid #8b7355;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  margin: 0.75rem 0;
+  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  margin: 1rem 0;
   display: inline-block;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 `;
 
 const LoadingPlaceholder = clay.div`
   background: #fafafa;
-  border: 2px solid #e0e0e0;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+  border: 1px solid #e4e4e7;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
   text-align: center;
-  color: #5a6c7d;
-  font-size: 0.8rem;
-  font-family: 'Cormorant Garamond', serif;
+  color: #71717a;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
 `;
 
 const InlineCode = clay.code`
-  background: #f8f9fa;
-  padding: 0.1em 0.25em;
-  border: 1px solid #e0e0e0;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.9em;
-  color: #8b7355;
+  background: #f4f4f5;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875em;
+  color: #18181b;
+  font-weight: 500;
 `;
 
 const CodeBlock = clay.pre`
-  background: #2c3e50;
-  color: #ecf0f1;
+  background: #09090b;
+  color: #fafafa;
   padding: 1rem;
   border-left: 4px solid #8b7355;
   overflow-x: auto;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.6rem;
-  line-height: 1.6;
-  margin: 0.75rem 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
 export function App() {
@@ -152,7 +154,7 @@ export function App() {
         <Section>
           <SectionTitle>Installation</SectionTitle>
           <p>Get started with Clay in seconds:</p>
-          <InstallCommand>npm install @alexradulescu/clay @acab/ecsstatic</InstallCommand>
+          <InstallCommand>npm install @alexradulescu/clay</InstallCommand>
         </Section>
 
         <Suspense fallback={<LoadingPlaceholder>Loading Features...</LoadingPlaceholder>}>
@@ -167,21 +169,26 @@ export function App() {
           <LiveDemoSection />
         </Suspense>
 
+        <Suspense fallback={<LoadingPlaceholder>Loading Global Styles...</LoadingPlaceholder>}>
+          <GlobalStylesSection />
+        </Suspense>
+
         <Section>
           <SectionTitle>Configuration</SectionTitle>
           <p>Add Clay to your Vite project:</p>
           <CodeBlock>{`// vite.config.ts
 import { defineConfig } from "vite";
-import { ecsstatic } from "@acab/ecsstatic/vite";
+import { clay } from "@alexradulescu/clay/vite";
 import react from "@vitejs/plugin-react";
-import { clayPlugin } from "@alexradulescu/clay/vite";
 
 export default defineConfig({
-  plugins: [clayPlugin(), ecsstatic(), react()],
+  plugins: [
+    clay(),    // Handles transformation + CSS extraction
+    react(),   // React handles JSX
+  ],
 });`}</CodeBlock>
           <p>
-            <strong>Important:</strong> Plugin order matters! <InlineCode>clayPlugin()</InlineCode> must come before{" "}
-            <InlineCode>ecsstatic()</InlineCode>, which must come before <InlineCode>react()</InlineCode>.
+            <strong>That's it!</strong> The <InlineCode>clay()</InlineCode> plugin handles everything automatically.
           </p>
         </Section>
 

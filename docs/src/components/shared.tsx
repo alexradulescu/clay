@@ -27,15 +27,14 @@ export const Section = clay.section`
 `;
 
 export const SectionTitle = clay.h2`
-  font-size: 1.67rem;
+  font-size: 1.875rem;
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #2c3e50;
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  border-bottom: 2px solid #e8e8e8;
+  color: #09090b;
+  font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid #e4e4e7;
   padding-bottom: 0.5rem;
   position: relative;
 
@@ -50,41 +49,45 @@ export const SectionTitle = clay.h2`
   }
 
   @media (max-width: 768px) {
-    font-size: 1.33rem;
+    font-size: 1.5rem;
   }
 `;
 
 export const CodeBlock = clay.pre`
-  background: #2c3e50;
-  color: #ecf0f1;
+  background: #09090b;
+  color: #fafafa;
   padding: 1rem;
   border-left: 4px solid #8b7355;
   overflow-x: auto;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.6rem;
-  line-height: 1.6;
-  margin: 0.75rem 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 `;
 
 export const InlineCode = clay.code`
-  background: #f8f9fa;
-  padding: 0.1em 0.25em;
-  border: 1px solid #e0e0e0;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.9em;
-  color: #8b7355;
+  background: #f4f4f5;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875em;
+  color: #18181b;
+  font-weight: 500;
 `;
 
 export const Link = clay.a`
-  color: #2c3e50;
-  text-decoration: none;
-  font-weight: 600;
-  border-bottom: 2px solid #8b7355;
+  color: #18181b;
+  text-decoration: underline;
+  text-decoration-color: #8b7355;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  font-weight: 500;
   transition: all 0.2s ease;
 
   &:hover {
     color: #8b7355;
-    border-bottom-color: #2c3e50;
+    text-decoration-color: #18181b;
   }
 `;
