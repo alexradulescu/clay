@@ -23,6 +23,7 @@ const ECSSTATIC_IMPORT_CHECK = 'from "@acab/ecsstatic"';
  *
  * Examples that match:
  * - const Button = clay.button`padding: 1rem;`
+ * - export const Button = clay.button`padding: 1rem;`
  * - const Card = clay.div`background: white;`
  *
  * Capture groups:
@@ -32,14 +33,16 @@ const ECSSTATIC_IMPORT_CHECK = 'from "@acab/ecsstatic"';
  *
  * Note: Only matches `const` declarations, not `let` or `var`.
  * This is intentional to encourage immutable component definitions.
+ * The pattern optionally matches export before const to support exported components.
  */
-const CLAY_ELEMENT_PATTERN = /const\s+(\w+)\s*=\s*clay\.(\w+)`([^`]*)`/g;
+const CLAY_ELEMENT_PATTERN = /(?:export\s+)?const\s+(\w+)\s*=\s*clay\.(\w+)`([^`]*)`/g;
 
 /**
  * Pattern 2: Matches `const ComponentName = clay(BaseComponent)`cssContent``
  *
  * Examples that match:
  * - const PrimaryButton = clay(Button)`background: blue;`
+ * - export const PrimaryButton = clay(Button)`background: blue;`
  * - const LargeCard = clay(Card)`padding: 2rem;`
  *
  * Capture groups:
@@ -48,14 +51,16 @@ const CLAY_ELEMENT_PATTERN = /const\s+(\w+)\s*=\s*clay\.(\w+)`([^`]*)`/g;
  * - Group 3: CSS content (e.g., "background: blue;")
  *
  * Note: The base component must be a valid JavaScript identifier.
+ * The pattern optionally matches export before const to support exported components.
  */
-const CLAY_EXTEND_PATTERN = /const\s+(\w+)\s*=\s*clay\((\w+)\)`([^`]*)`/g;
+const CLAY_EXTEND_PATTERN = /(?:export\s+)?const\s+(\w+)\s*=\s*clay\((\w+)\)`([^`]*)`/g;
 
 /**
  * Pattern 3: Matches `const GlobalStyle = createGlobalStyle`cssContent``
  *
  * Examples that match:
  * - const GlobalStyle = createGlobalStyle`* { box-sizing: border-box; }`
+ * - export const GlobalStyle = createGlobalStyle`body { margin: 0; }`
  * - const CSSReset = createGlobalStyle`body { margin: 0; }`
  *
  * Capture groups:
@@ -63,9 +68,10 @@ const CLAY_EXTEND_PATTERN = /const\s+(\w+)\s*=\s*clay\((\w+)\)`([^`]*)`/g;
  * - Group 2: CSS content (e.g., "* { box-sizing: border-box; }")
  *
  * Note: The component name can be anything, but typically GlobalStyle or CSSReset.
+ * The pattern optionally matches export before const to support exported global styles.
  */
 const CREATE_GLOBAL_STYLE_PATTERN =
-  /const\s+(\w+)\s*=\s*createGlobalStyle`([^`]*)`/g;
+  /(?:export\s+)?const\s+(\w+)\s*=\s*createGlobalStyle`([^`]*)`/g;
 
 // ============================================================================
 // Helper Functions
