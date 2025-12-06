@@ -1,6 +1,6 @@
 {
   "name": "@alexradulescu/clay",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Minimal, type-safe CSS-in-JS for React with zero runtime. Uses ecsstatic for compile-time CSS extraction.",
   "type": "module",
   "sideEffects": false,
