@@ -7,52 +7,13 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background: #fafafa;
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #09090b;
-  }
-
-  #root {
-    min-height: 100vh;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
     font-family: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: #09090b;
-    line-height: 1.2;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    color: #1a1a1a;
   }
 
-  h1 {
-    font-size: 2.25rem;
-    font-weight: 700;
-  }
-
-  h2 {
-    font-size: 1.875rem;
-    font-weight: 600;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-  }
-
-  ul {
-    line-height: 1.7;
-  }
-
-  p {
-    line-height: 1.7;
-    color: #52525b;
-    font-size: 1rem;
-  }
-
-  code {
-    font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  code, pre {
+    font-family: 'Fira Code', ui-monospace, monospace;
   }
 `;

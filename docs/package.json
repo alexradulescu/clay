@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@alexradulescu/clay": "file:../",
+    "@alexradulescu/clay": "link:@alexradulescu/clay",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
