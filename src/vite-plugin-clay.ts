@@ -48,19 +48,19 @@ export function clayPlugin(): Plugin {
         while ((match = pattern.exec(code)) !== null) {
           const [full, exp, name, tag, css] = match;
           const merge = "props.className ? props.className + ' ' + c : c";
-          const replacement = `${exp || ""}const ${name} = ((c) => (props) => <${tag} {...props} className={${merge}} />)(css\`${css}\`);`;
+          const replacement = `${exp || ""}const ${name} = ((c) => (props) => <${tag} {...props} className={${merge}} />)(__css\`${css}\`);`;
           s.overwrite(match.index, match.index + full.length, replacement);
           transformed = true;
           needsCss = true;
         }
       }
 
-      // Transform createGlobalStyle`css` - use aliased import to avoid conflict with clay stub
+      // Transform createGlobalStyle`css` → side-effect call + no-op component
       PATTERNS.global.lastIndex = 0;
       let match;
       while ((match = PATTERNS.global.exec(code)) !== null) {
         const [full, exp, name, css] = match;
-        const replacement = `__globalStyle\`${css}\`; ${exp || ""}const ${name} = () => null;`;
+        const replacement = `__global\`${css}\`; ${exp || ""}const ${name} = () => null;`;
         s.overwrite(match.index, match.index + full.length, replacement);
         transformed = true;
         needsGlobal = true;
@@ -70,16 +70,13 @@ export function clayPlugin(): Plugin {
         return null;
       }
 
-      // Add ecsstatic imports
-      const hasEcsstaticImport = code.includes('from "@acab/ecsstatic"');
-
-      // css: always add when needed (not exported from clay)
-      if (needsCss && !hasEcsstaticImport) {
-        s.prepend('import { css } from "@acab/ecsstatic";\n');
-      }
-      // createGlobalStyle: always add with alias to avoid conflict with clay stub
-      if (needsGlobal) {
-        s.prepend('import { createGlobalStyle as __globalStyle } from "@acab/ecsstatic";\n');
+      // Add ecsstatic imports with aliases to avoid conflicts with user's clay imports
+      // Must import from @acab/ecsstatic for ecsstatic's plugin to process
+      const imports = [];
+      if (needsCss) imports.push("css as __css");
+      if (needsGlobal) imports.push("createGlobalStyle as __global");
+      if (imports.length) {
+        s.prepend(`import { ${imports.join(", ")} } from "@acab/ecsstatic";\n`);
       }
 
       return {
